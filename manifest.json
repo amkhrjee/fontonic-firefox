@@ -21,5 +21,10 @@
         },
         "default_popup": "./popup/popup.html",
         "default_title": "Fontonic"
+    },
+    "background": {
+        "scripts": [
+            "./js/background.js"
+        ]
     }
 }
