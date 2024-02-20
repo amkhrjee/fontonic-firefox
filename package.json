@@ -1,0 +1,28 @@
+{
+  "name": "fontonic-firefox",
+  "version": "1.0.0",
+  "description": "Firefox Add-On for the Fontonic Chrome extension",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amkhrjee/fontonic-firefox.git"
+  },
+  "keywords": [
+    "firefox",
+    "add-on"
+  ],
+  "author": "amkhrjee",
+  "license": "GPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/amkhrjee/fontonic-firefox/issues"
+  },
+  "homepage": "https://github.com/amkhrjee/fontonic-firefox#readme",
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "undici-types": "^6.6.2",
+    "web-ext": "^7.11.0"
+  }
+}
