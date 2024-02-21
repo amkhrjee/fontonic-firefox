@@ -1,39 +1,4 @@
-// WARNING: TSC generated stuff don't touch
-var __awaiter =
-    (this && this.__awaiter) ||
-    function (thisArg, _arguments, P, generator) {
-        function adopt(value) {
-            return value instanceof P
-                ? value
-                : new P(function (resolve) {
-                      resolve(value);
-                  });
-        }
-        return new (P || (P = Promise))(function (resolve, reject) {
-            function fulfilled(value) {
-                try {
-                    step(generator.next(value));
-                } catch (e) {
-                    reject(e);
-                }
-            }
-            function rejected(value) {
-                try {
-                    step(generator["throw"](value));
-                } catch (e) {
-                    reject(e);
-                }
-            }
-            function step(result) {
-                result.done
-                    ? resolve(result.value)
-                    : adopt(result.value).then(fulfilled, rejected);
-            }
-            step(
-                (generator = generator.apply(thisArg, _arguments || [])).next(),
-            );
-        });
-    };
+console.log("Hello from popup");
 
 // UI Elements
 const applyButton = document.querySelector(".apply");
@@ -44,14 +9,11 @@ const supportButtonIcon = document.querySelector(".material-symbols-outlined");
 const supportButtonText = document.querySelector(".support-btn-text");
 const paymentButtons = document.querySelectorAll(".support-slide>button");
 const control = document.querySelector(".control");
-const serifPlaceholder = document.querySelector("#serif_placeholder");
-const sansSerifPlaceholder = document.querySelector("#sans_serif_placeholder");
-const monospacePlaceholder = document.querySelector("#monospace_placeholder");
 const restoreButton = document.querySelector("#restore-btn");
 const fontSelectionForm = document.forms["fonts"];
-const serifSelect = fontSelectionForm.elements["serif"];
-const sansSerifSelect = fontSelectionForm.elements["sans_serif"];
-const monospaceSelect = fontSelectionForm.elements["monospace"];
+const serifInput = fontSelectionForm.elements["serif"];
+const sansSerifInput = fontSelectionForm.elements["sans_serif"];
+const monospaceInput = fontSelectionForm.elements["monospace"];
 
 // Show Support Page
 let isSupportPageOpen = false;
@@ -83,92 +45,97 @@ supportButton.addEventListener("click", () => {
 });
 
 // Handing main form
-fontSelectionForm.addEventListener("submit", (e) =>
-    __awaiter(this, void 0, void 0, function* () {
-        e.preventDefault();
-        const serifValue = serifSelect.value;
-        const sansSerifValue = sansSerifSelect.value;
-        const monospaceValue = monospaceSelect.value;
-        if (
-            !serifValue.length &&
-            !sansSerifValue.length &&
-            !monospaceValue.length
-        ) {
-            applyButton.innerHTML = "No Changes Made";
-            applyButton.style.color = "#ffb6ad";
-            setTimeout(() => {
-                applyButton.innerHTML = "Apply Selection";
-                applyButton.style.color = "#bccbaf";
-            }, 1000);
-        } else {
-            applyButton.innerHTML = "✔ Applied";
-            setTimeout(() => {
-                applyButton.innerHTML = "Apply Selection";
-            }, 2000);
-        }
-        console.log("MonoSpace Value", monospaceValue);
-        browser.tabs.query(
-            { active: true, lastFocusedWindow: true },
-            (tabs) => {
-                console.log("Popup.js -- tabs data", tabs);
-                if (tabs) {
-                    let message = {
-                        type: "apply_font",
-                        data: {
-                            serif: serifValue.length ? serifValue : "Default",
-                            sans_serif: sansSerifValue.length
-                                ? sansSerifValue
-                                : "Default",
-                            monospace: monospaceValue.length
-                                ? monospaceValue
-                                : "Default",
-                        },
-                    };
-                    const port = browser.tabs.connect(tabs[0].id);
-                    port.postMessage(message);
-                    // Saving in the local Storage
-                    const domain = new URL(tabs[0].url).hostname;
-                    const fontData = {
-                        serif: message.data.serif,
-                        sans_serif: message.data.sans_serif,
-                        monospace: message.data.monospace,
-                    };
-                    console.log(
-                        "Popup.js -- Saving font data into local Storage...",
-                    );
-                    if (
-                        serifValue.length ||
-                        sansSerifValue.length ||
-                        monospaceValue.length
-                    ) {
-                        control.style.display = "flex";
-                        browser.storage.local
-                            .set({ [domain]: fontData })
-                            .then(() => {
-                                console.log("Stored in local Storage!");
-                            });
-                    }
+fontSelectionForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const serifValue = serifInput.value;
+    const sansSerifValue = sansSerifInput.value;
+    const monospaceValue = monospaceInput.value;
+    if (
+        !serifValue.length &&
+        !sansSerifValue.length &&
+        !monospaceValue.length
+    ) {
+        applyButton.innerHTML = "No Changes Made";
+        applyButton.style.color = "#ffb6ad";
+        setTimeout(() => {
+            applyButton.innerHTML = "Apply Selection";
+            applyButton.style.color = "#bccbaf";
+        }, 1000);
+    } else {
+        applyButton.innerHTML = "✔ Applied";
+        setTimeout(() => {
+            applyButton.innerHTML = "Apply Selection";
+        }, 2000);
+    }
+    console.log("Hello from form");
+    browser.tabs.query({ active: true, lastFocusedWindow: true }).then(
+        (tabs) => {
+            console.log("Popup.js -- tabs data", tabs);
+            if (tabs) {
+                let message = {
+                    type: "apply_font",
+                    data: {
+                        serif: serifValue.length ? serifValue : "Default",
+                        sans_serif: sansSerifValue.length
+                            ? sansSerifValue
+                            : "Default",
+                        monospace: monospaceValue.length
+                            ? monospaceValue
+                            : "Default",
+                    },
+                };
+                const port = browser.tabs.connect(tabs[0].id);
+                port.postMessage(message);
+                // Saving in the local Storage
+                const domain = new URL(tabs[0].url).hostname;
+                const fontData = {
+                    serif: message.data.serif,
+                    sans_serif: message.data.sans_serif,
+                    monospace: message.data.monospace,
+                };
+                console.log(
+                    "Popup.js -- Saving font data into local Storage...",
+                );
+                if (
+                    serifValue.length ||
+                    sansSerifValue.length ||
+                    monospaceValue.length
+                ) {
+                    control.style.display = "block";
+                    browser.storage.local
+                        .set({ [domain]: fontData })
+                        .then(() => {
+                            console.log("Stored in local Storage!");
+                        });
                 }
-            },
-        );
-    }),
-);
+            }
+        },
+        (error) => {
+            console.error(error);
+        },
+    );
+});
 
 paymentButtons[0].addEventListener("click", () => {
-    chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
-        const port = chrome.tabs.connect(tabs[0].id);
-        port.postMessage({
-            type: "redirect",
-            data: {
-                redirect_url:
-                    "https://paypal.me/amkhrjee?country.x=IN&locale.x=en_GB",
-            },
-        });
-    });
+    browser.tabs.query({ active: true, lastFocusedWindow: true }).then(
+        (tabs) => {
+            const port = browser.tabs.connect(tabs[0].id);
+            port.postMessage({
+                type: "redirect",
+                data: {
+                    redirect_url:
+                        "https://paypal.me/amkhrjee?country.x=IN&locale.x=en_GB",
+                },
+            });
+        },
+        (error) => {
+            console.error(error);
+        },
+    );
 });
 paymentButtons[1].addEventListener("click", () => {
-    chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
-        const port = chrome.tabs.connect(tabs[0].id);
+    browser.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+        const port = browser.tabs.connect(tabs[0].id);
         port.postMessage({
             type: "redirect",
             data: {
@@ -178,8 +145,8 @@ paymentButtons[1].addEventListener("click", () => {
     });
 });
 paymentButtons[2].addEventListener("click", () => {
-    chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
-        const port = chrome.tabs.connect(tabs[0].id);
+    browser.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+        const port = browser.tabs.connect(tabs[0].id);
         port.postMessage({
             type: "redirect",
             data: {
@@ -189,8 +156,8 @@ paymentButtons[2].addEventListener("click", () => {
     });
 });
 paymentButtons[3].addEventListener("click", () => {
-    chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
-        const port = chrome.tabs.connect(tabs[0].id);
+    browser.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+        const port = browser.tabs.connect(tabs[0].id);
         port.postMessage({
             type: "redirect",
             data: {
@@ -198,4 +165,52 @@ paymentButtons[3].addEventListener("click", () => {
             },
         });
     });
+});
+
+const updatePlaceholders = (value) => {
+    // Placeholder value
+    serifInput.placeholder = value.serif;
+    sansSerifInput.placeholder = value.sans_serif;
+    monospaceInput.placeholder = value.monospace;
+};
+// Populating placeholder values
+browser.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+    tab_id = tabs[0].id;
+    const domain = new URL(tabs[0].url).hostname;
+    console.log("From the popup: ", domain);
+    browser.storage.local.get([domain]).then((result) => {
+        const fontData = result[domain];
+        console.log(fontData);
+        if (fontData) {
+            updatePlaceholders(fontData);
+            control.style.display = "block";
+        }
+    });
+});
+restoreButton.addEventListener("click", async () => {
+    // Restoring the original fonts
+    let [tab] = await browser.tabs.query({
+        active: true,
+        lastFocusedWindow: true,
+    });
+    if (tab) {
+        let message = {
+            type: "restore",
+        };
+        const port = browser.tabs.connect(tab.id);
+        port.postMessage(message);
+        // Delete the font from local Storage
+        const domain = new URL(tab.url).hostname;
+        browser.storage.local.remove(domain, () => {
+            console.log("Successfully removed entries for domain: ");
+        });
+        // Hide the Pause and Restore Buttons
+        control.style.display = "none";
+        // Revert the placeholders to default
+        updatePlaceholders({
+            serif: "Default",
+            sans_serif: "Default",
+            monospace: "Default",
+        });
+    }
 });

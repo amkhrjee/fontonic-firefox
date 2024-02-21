@@ -6,9 +6,9 @@
     "description": "Customize the web's fonts!",
     "version": "1.0",
     "permissions": [
-        "activeTab",
         "tabs",
         "storage",
+        "activeTab",
         "scripting"
     ],
     "browser_action": {

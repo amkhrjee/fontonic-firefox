@@ -40,7 +40,7 @@ let message = {
 // Tries to load font when page is loaded
 browser.runtime.sendMessage(message, undefined, (response) => {
     if (response.type === "apply_font") {
-        console.log("Tryint to load fonts");
+        console.log("Loading fonts from storage");
         const serif = response.data.serif;
         const sans_serif = response.data.sans_serif;
         const monospace = response.data.monospace;
