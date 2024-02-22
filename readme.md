@@ -22,3 +22,7 @@ npx web-ext build
 ```
 
 Fontonic uses Prettier for code formatting. Thus, it is recommended to have the Prettier VS Code extension installed. Maintain the `tabWidth: 4` as configured in `.prettierrc`.
+
+## Chrome Extension Source
+
+The source for the Chrome extension is hosted at https://github.com/amkhrjee/fontonic
