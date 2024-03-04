@@ -4,7 +4,7 @@
     "name": "Fontonic - Customize Fonts",
     "short_name": "Fontonic",
     "description": "Customize the web's fonts!",
-    "version": "1.0",
+    "version": "1.1",
     "permissions": [
         "tabs",
         "storage",
