@@ -4,27 +4,15 @@ const changeFontFamily = (node, serif, sansSerif, monospace) => {
         const computedStyle = window.getComputedStyle(node);
         const fontFamily = computedStyle.getPropertyValue("font-family");
         if (fontFamily) {
-            if (fontFamily.includes("sans-serif")) {
-                if (sansSerif != "Default") {
-                    originalSansSerif = fontFamily;
-                    node.style.fontFamily = `'${sansSerif}', ${originalSansSerif}`;
-                } else {
-                    node.style.fontFamily = `${originalSansSerif}`;
-                }
-            } else if (fontFamily.includes("serif")) {
-                if (serif != "Default") {
-                    originalSerif = fontFamily;
-                    node.style.fontFamily = `'${serif}', ${originalSerif}`;
-                } else {
-                    node.style.fontFamily = `${originalSerif}`;
-                }
-            } else if (fontFamily.includes("monospace")) {
-                if (monospace != "Default") {
-                    originalMonospace = fontFamily;
-                    node.style.fontFamily = `'${monospace}', ${originalMonospace}`;
-                } else {
-                    node.style.fontFamily = `${originalMonospace}`;
-                }
+            if (fontFamily.includes("sans-serif") && sansSerif != "Default") {
+                node.style.fontFamily = `'${sansSerif}', ${originalSansSerif}`;
+            } else if (fontFamily.includes("serif") && serif != "Default") {
+                node.style.fontFamily = `'${serif}', ${originalSerif}`;
+            } else if (
+                fontFamily.includes("monospace") &&
+                monospace != "Default"
+            ) {
+                node.style.fontFamily = `'${monospace}', ${originalMonospace}`;
             }
         }
     }
