@@ -1,5 +1,3 @@
-console.log("Hello from popup");
-
 // UI Elements
 const applyButton = document.querySelector(".apply");
 const supportPage = document.querySelector(".support-slide");
@@ -67,10 +65,10 @@ fontSelectionForm.addEventListener("submit", (e) => {
             applyButton.innerHTML = "Apply Selection";
         }, 2000);
     }
-    console.log("Hello from form");
+    // console.log("Hello from form");
     browser.tabs.query({ active: true, lastFocusedWindow: true }).then(
         (tabs) => {
-            console.log("Popup.js -- tabs data", tabs);
+            // console.log("Popup.js -- tabs data", tabs);
             if (tabs) {
                 let message = {
                     type: "apply_font",
@@ -93,9 +91,9 @@ fontSelectionForm.addEventListener("submit", (e) => {
                     sans_serif: message.data.sans_serif,
                     monospace: message.data.monospace,
                 };
-                console.log(
-                    "Popup.js -- Saving font data into local Storage...",
-                );
+                // console.log(
+                //     "Popup.js -- Saving font data into local Storage...",
+                // );
                 if (
                     serifValue.length ||
                     sansSerifValue.length ||
@@ -177,10 +175,10 @@ const updatePlaceholders = (value) => {
 browser.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
     tab_id = tabs[0].id;
     const domain = new URL(tabs[0].url).hostname;
-    console.log("From the popup: ", domain);
+    // console.log("From the popup: ", domain);
     browser.storage.local.get([domain]).then((result) => {
         const fontData = result[domain];
-        console.log(fontData);
+        // console.log(fontData);
         if (fontData) {
             updatePlaceholders(fontData);
             control.style.display = "block";
@@ -202,7 +200,7 @@ restoreButton.addEventListener("click", async () => {
         // Delete the font from local Storage
         const domain = new URL(tab.url).hostname;
         browser.storage.local.remove(domain, () => {
-            console.log("Successfully removed entries for domain: ");
+            // console.log("Successfully removed entries for domain: ");
         });
         // Hide the Pause and Restore Buttons
         control.style.display = "none";
