@@ -150,7 +150,7 @@ paymentButtons[2].addEventListener("click", () => {
         port.postMessage({
             type: "redirect",
             data: {
-                redirect_url: "https://twitter.com/amkhrjee",
+                redirect_url: "https://github.com/amkhrjee/fontonic-firefox",
             },
         });
     });
